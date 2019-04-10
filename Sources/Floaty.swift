@@ -32,7 +32,16 @@ open class Floaty: UIView {
     /**
      `FloatyItem` objects.
      */
-    @objc open var items: [FloatyItem] = []
+    @objc open var items: [FloatyItem] = [] {
+        didSet {
+            oldValue.forEach { (item) in
+                item.removeFromSuperview()
+            }
+            items.forEach { (item) in
+                self.addItem(item: item)
+            }
+        }
+    }
     
     /**
      This object's button size.
@@ -451,7 +460,6 @@ open class Floaty: UIView {
         item.frame.origin = CGPoint(x: big/2-small/2, y: big/2-small/2)
         item.alpha = 0
         item.actionButton = self
-        items.append(item)
         addSubview(item)
     }
     
